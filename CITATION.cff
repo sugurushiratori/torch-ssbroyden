@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below, together with the SSBroyden paper."
+title: "torch-ssbroyden: self-scaled Broyden quasi-Newton optimizers for PyTorch"
+type: software
+version: 0.4.0
+license: Apache-2.0
+repository-code: "https://github.com/Shiratori-Lab/torch-ssbroyden"
+authors:
+  - family-names: Shiratori
+    given-names: Suguru
+    affiliation: "Tokyo City University"
+keywords: [pytorch, optimizer, quasi-Newton, Broyden, BFGS, physics-informed neural networks]
+references:
+  - type: article
+    authors:
+      - family-names: Kiyani
+        given-names: Elham
+      - name: "et al."
+    title: "Optimizing the optimizer for physics-informed neural networks and Kolmogorov-Arnold networks"
+    journal: "Computer Methods in Applied Mechanics and Engineering"
+    volume: 446
+    start: 118308
+    year: 2025

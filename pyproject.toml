@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "torch-ssbroyden"
+version = "0.4.0"
+description = "Self-scaled Broyden (SSBroyden) and limited-memory L-SSBroyden quasi-Newton optimizers for PyTorch"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "Apache-2.0"}
+keywords = ["pytorch", "optimizer", "quasi-newton", "bfgs", "broyden", "pinn", "scientific machine learning"]
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Mathematics",
+]
+authors = [{name = "Suguru Shiratori", email = "sshrator@tcu.ac.jp"}]
+dependencies = ["torch>=2.1", "numpy>=1.22"]
+
+[project.optional-dependencies]
+fast = ["scipy>=1.8"]   # BLAS rank-1 updates in the L-SSBroyden rebuild (about 2.5x faster for m = 100)
+test = ["pytest", "scipy"]
+
+[project.urls]
+Repository = "https://github.com/Shiratori-Lab/torch-ssbroyden"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/torch_ssbroyden"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
