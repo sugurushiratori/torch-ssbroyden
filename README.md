@@ -1,5 +1,7 @@
 # torch-ssbroyden — self-scaled Broyden optimizers for PyTorch
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23998784.svg)](https://doi.org/10.5281/zenodo.23998784)
+
 `torch-ssbroyden` provides limited-memory and dense self-scaled Broyden (SSBroyden)
 quasi-Newton optimizers as `torch.optim.Optimizer` subclasses with the interface of
 `torch.optim.LBFGS`, and a helper for mini-batch training with resampled collocation points.
@@ -156,9 +158,11 @@ pytest
 
 Apache License 2.0 (the vendored line search is BSD-3-Clause, see the file header).
 
-If you use this package, please cite the accompanying note and the SSBroyden paper
-(see [CITATION.cff](CITATION.cff)):
+If you use this package, please cite the software (DOI [10.5281/zenodo.23998784](https://doi.org/10.5281/zenodo.23998784)), the
+accompanying note and the SSBroyden paper (see [CITATION.cff](CITATION.cff)):
 
+- S. Shiratori, *torch-ssbroyden: self-scaled Broyden quasi-Newton optimizers for PyTorch*,
+  Zenodo, 2026. https://doi.org/10.5281/zenodo.23998784
 - S. Shiratori, *L-SSBroyden: limited-memory and mini-batch self-scaled Broyden training of
   physics-informed neural networks*, arXiv, 2026.
 - E. Kiyani et al., *Comput. Methods Appl. Mech. Engrg.* 446 (2025) 118308.
