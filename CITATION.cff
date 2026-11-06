@@ -4,6 +4,11 @@ title: "torch-ssbroyden: self-scaled Broyden quasi-Newton optimizers for PyTorch
 type: software
 version: 0.4.0
 license: Apache-2.0
+doi: 10.5281/zenodo.23998784
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23998784
+    description: "Zenodo archive of torch-ssbroyden"
 repository-code: "https://github.com/Shiratori-Lab/torch-ssbroyden"
 authors:
   - family-names: Shiratori

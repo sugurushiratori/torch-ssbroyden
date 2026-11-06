@@ -1,5 +1,7 @@
 # torch-ssbroyden — PyTorch 用の self-scaled Broyden 準ニュートン法
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23998784.svg)](https://doi.org/10.5281/zenodo.23998784)
+
 `torch-ssbroyden` は、self-scaled Broyden（SSBroyden）法の省メモリ版と密行列版を、`torch.optim.LBFGS` と同じインターフェースの `torch.optim.Optimizer` サブクラスとして提供します。点を取り直しながら学習するミニバッチ学習用のヘルパーも含みます。PINN 向けに作りましたが、滑らかな損失関数なら何にでも使えます。
 
 (English: [README.md](README.md))
@@ -117,8 +119,9 @@ trainer = SegmentTrainer(opt, loss_fn, sample, n0=2000, sampler=sampler,
 
 Apache License 2.0（写した直線探索の部分は BSD-3-Clause。ファイル冒頭を参照）。
 
-使った場合は、付随する arXiv の論文と SSBroyden の論文を引用してください（[CITATION.cff](CITATION.cff)）。
+使った場合は、このソフトウェア（DOI [10.5281/zenodo.23998784](https://doi.org/10.5281/zenodo.23998784)）、付随する arXiv の論文、SSBroyden の論文を引用してください（[CITATION.cff](CITATION.cff)）。
 
+- S. Shiratori, *torch-ssbroyden: self-scaled Broyden quasi-Newton optimizers for PyTorch*, Zenodo, 2026. https://doi.org/10.5281/zenodo.23998784
 - S. Shiratori, *L-SSBroyden: limited-memory and mini-batch self-scaled Broyden training of physics-informed neural networks*, arXiv, 2026.
 - E. Kiyani et al., *Comput. Methods Appl. Mech. Engrg.* 446 (2025) 118308.
 
