@@ -1,6 +1,9 @@
 # Changelog
 
 ## 0.4.1
+- `tolerance_grad` and `tolerance_change` default to 0 in `LSSBroyden` and `SSBroyden` (were 1e-7 and
+  1e-9 as in `torch.optim.LBFGS`). These absolute tolerances depend on the scale of the loss and
+  can stop a run early; pass the old values explicitly to restore the previous behaviour.
 - `ss_params`: evaluate 1 - sqrt(a/(1+a)) as 1/((1+a)(1+sqrt(a/(1+a)))) for a >= 1e6. The
   direct form loses accuracy for large a and is exactly 0 for a >~ 1e16, which raised
   `ZeroDivisionError`. Results for a < 1e6 are bit-identical to 0.4.0.

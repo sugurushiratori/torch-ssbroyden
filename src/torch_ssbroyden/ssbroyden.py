@@ -111,8 +111,8 @@ class _SSBroydenBase(Optimizer):
         lr: float = 1.0,
         max_iter: int = 20,
         max_eval: int | None = None,
-        tolerance_grad: float = 1e-7,
-        tolerance_change: float = 1e-9,
+        tolerance_grad: float = 0.0,
+        tolerance_change: float = 0.0,
         line_search_fn: str | None = "strong_wolfe",
         update: str = "ssbroyden",
         line_search_tolerance: float = 1e-9,
@@ -352,7 +352,9 @@ class SSBroyden(_SSBroydenBase):
     """Dense SSBroyden (n x n inverse Hessian). For reference / small models only.
 
     Args: as torch.optim.LBFGS (lr, max_iter, max_eval, tolerance_grad,
-    tolerance_change, line_search_fn; default line_search_fn="strong_wolfe"), plus
+    tolerance_change, line_search_fn; default line_search_fn="strong_wolfe"), except that
+    tolerance_grad and tolerance_change default to 0 (stop by max_iter / max_eval only; absolute
+    tolerances depend on the scale of the loss), plus
     update: "ssbroyden" | "ssbfgs" | "bfgs".
     """
 
@@ -385,7 +387,8 @@ class LSSBroyden(_SSBroydenBase):
 
     Args: as torch.optim.LBFGS (lr, max_iter, max_eval, tolerance_grad,
     tolerance_change, history_size, line_search_fn; default
-    line_search_fn="strong_wolfe"), plus
+    line_search_fn="strong_wolfe"), except that tolerance_grad and tolerance_change default to 0
+    (stop by max_iter / max_eval only; absolute tolerances depend on the scale of the loss), plus
       update : "ssbroyden" (default) | "ssbfgs" | "bfgs"
       h0     : "latest" (default; gamma = s^T y / y^T y of the newest pair, as LBFGS),
                "bb1" (experimental; gamma = s^T s / s^T y of the newest pair),
@@ -393,8 +396,8 @@ class LSSBroyden(_SSBroydenBase):
                | "identity" (H0 = I; reproduces SSBroyden while nothing is dropped)
     """
 
-    def __init__(self, params, lr=1.0, max_iter=20, max_eval=None, tolerance_grad=1e-7,
-                 tolerance_change=1e-9, history_size: int = 20,
+    def __init__(self, params, lr=1.0, max_iter=20, max_eval=None, tolerance_grad=0.0,
+                 tolerance_change=0.0, history_size: int = 20,
                  line_search_fn="strong_wolfe", update="ssbroyden", h0: str | float = "latest",
                  line_search_tolerance: float = 1e-9, curvature_guard: str = "relative",
                  tau_beta: float = 0.0):

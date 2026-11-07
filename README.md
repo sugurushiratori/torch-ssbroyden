@@ -64,7 +64,7 @@ for epoch in range(n_epochs):
 | `curvature_guard` | `"relative"` | skip an update if sᵀy ≤ ε‖s‖‖y‖; `"absolute"` uses sᵀy ≤ 1e-10 as `torch.optim.LBFGS` |
 | `line_search_fn` | `"strong_wolfe"` | or `None` for a fixed step `lr` |
 | `tau_beta` | 0.0 | experimental variant of the τ rule; 0 is the published rule |
-| others | | `lr`, `max_iter`, `max_eval`, `tolerance_grad`, `tolerance_change` as in `torch.optim.LBFGS` |
+| others | | `lr`, `max_iter`, `max_eval`, `tolerance_grad`, `tolerance_change` as in `torch.optim.LBFGS`, but the two tolerances default to 0 (absolute tolerances depend on the scale of the loss; stop by `max_iter` / `max_eval`) |
 
 ### Mini-batch training with resampled points (`SegmentTrainer`)
 

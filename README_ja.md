@@ -53,7 +53,7 @@ for epoch in range(N):
 | `curvature_guard` | `"relative"` | 更新を飛ばす基準。`"absolute"` は torch.optim.LBFGS と同じ sᵀy ≤ 1e-10 |
 | `line_search_fn` | `"strong_wolfe"` | `None` にすると固定ステップ `lr` |
 | `tau_beta` | 0.0 | 実験的オプション（τ の規則の変種）。既定の 0 が論文どおりの規則 |
-| その他 | | `lr`, `max_iter`, `max_eval`, `tolerance_grad`, `tolerance_change` は LBFGS と同じ |
+| その他 | | `lr`, `max_iter`, `max_eval`, `tolerance_grad`, `tolerance_change` は LBFGS と同じ。ただし 2 つの閾値の既定値は 0（絶対閾値は loss の尺度に依存するため。停止は `max_iter`・`max_eval` で決まる） |
 
 ### ミニバッチ学習（SegmentTrainer）
 
