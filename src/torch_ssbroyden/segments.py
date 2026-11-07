@@ -4,7 +4,8 @@ Quasi-Newton methods need a consistent objective over many iterations: resamplin
 collocation points at every iteration stalls them, even with large batches.  The
 `SegmentTrainer` keeps each batch for a *segment* of iterations, keeps the curvature memory
 across segments, and decides the segment length and the batch size automatically from an
-independent probe batch (Shiratori, "L-SSBroyden", Sec. 6):
+independent probe batch (Shiratori, "L-SSBroyden", Appendix C; ``theta`` is the threshold
+beta there):
 
   * a segment ends when the probe loss has not improved by more than ``rel_tol`` over the
     last ``patience`` probe evaluations (one every ``probe_every`` iterations), but not
@@ -38,7 +39,12 @@ uniform points (mini-batches); residual-based adaptive sampling works the same w
     sampler = RARD(sample, residual_fn, n_add=0.1, keys=["pde"])      # add points (RAR-D)
     trainer = SegmentTrainer(opt, loss_fn, sample, n0=2000, sampler=sampler, theta=None)
 
-Fixed schedules: ``segment_iters=M`` ends every segment after exactly M iterations (no
+Segment length is counted in calls of the optimizer: each call makes at most ``probe_every``
+iterations (fewer if the per-call evaluation cap ``max_eval`` is reached, which happens for
+methods that need many line-search evaluations), and ``it_in_seg`` adds ``probe_every`` per
+call, so ``m_min`` and ``segment_iters`` are nominal iteration counts.
+
+Fixed schedules: ``segment_iters=M`` ends every segment after M/probe_every calls (no
 stall test), ``theta=None`` keeps the batch size (no doubling), ``n_max=None`` = ``n0``.
 The optimizer can be any optimizer of torch_ssbroyden with ``new_batch()`` (LSSBroyden, SSBroyden).
 """
@@ -112,6 +118,14 @@ class SegmentTrainer:
         loss.backward()
         return loss
 
+    def _n_iter(self) -> int:
+        st = self.optimizer.state.get(self.optimizer.param_groups[0]["params"][0], {})
+        return int(st.get("n_iter", 0))
+
+    def _batch_loss(self) -> float:
+        with torch.enable_grad():
+            return float(self.loss_fn(self.batch).detach())
+
     def _probe_loss(self) -> float:
         if not self.probe:
             return float("nan")
@@ -122,8 +136,10 @@ class SegmentTrainer:
         self.batch = self.sampler(self.n, self.generator, self)
         self.batch_n = batch_size(self.batch)
         self.sampler_point_evals += getattr(self.sampler, "last_cost", 0)
-        if self.probe:                    # the probe is always uniform (population loss)
-            self.probe_batch = self.sample_fn(max(1, int(self.batch_n * self.probe_fraction)),
+        if self.probe:                    # the probe is always uniform (population loss);
+            # sample_fn takes the same size argument as for the batch (self.n), not the total
+            # number of points of the batch
+            self.probe_batch = self.sample_fn(max(1, int(self.n * self.probe_fraction)),
                                               self.generator)
         if not first:
             self.optimizer.new_batch()
@@ -143,22 +159,22 @@ class SegmentTrainer:
                     and (max_segments is None or len(self.segments) < max_segments))
 
         while budget_left():
-            before = self.evals
-            loss = self.optimizer.step(self._closure)
+            it_before = self._n_iter()
+            self.optimizer.step(self._closure)
             self.it_in_seg += self.probe_every
-            self.f_batch = float(loss)
             self.hist.append(self._probe_loss())
             if callback is not None and callback(self):
                 break
             stalled = (len(self.hist) > self.patience and
                        min(self.hist[-self.patience:])
                        > (1 - self.rel_tol) * min(self.hist[:-self.patience]))
-            no_progress = self.evals == before
+            no_progress = self._n_iter() == it_before   # the optimizer made no iteration
             if self.segment_iters is not None:
                 end = self.it_in_seg >= self.segment_iters
             else:
                 end = self.it_in_seg >= self.m_min and stalled
             if end or no_progress:
+                self.f_batch = self._batch_loss()   # batch loss at the end of the segment
                 rec = SegmentRecord(self.it_in_seg, self.batch_n, self.f_batch, self.hist[-1])
                 self.segments.append(rec)
                 grow = (self.theta is not None and getattr(self.sampler, "respects_n", True)

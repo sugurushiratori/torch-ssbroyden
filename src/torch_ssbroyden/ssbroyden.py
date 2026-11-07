@@ -92,7 +92,7 @@ def ss_params(b: float, h: float, n: int, update: str = "ssbroyden",
     if tau_beta:
         rho_p = min(1.0, ((1.0 + a) * one_m_c) ** tau_beta / b)
     sigma = 1.0 + a * theta  # >= rho_m > 0
-    sig = abs(sigma) ** (1.0 / (1 - n)) if n > 1 else 1.0  # sigma^(1-N)
+    sig = abs(sigma) ** (1.0 / (1 - n)) if n > 1 else 1.0  # sigma^(1/(1-N))
     if theta <= 0:
         tau = min(rho_p * sig, sigma)
     else:
@@ -470,8 +470,8 @@ class LSSBroyden(_SSBroydenBase):
         Each update  A <- (A - u u^T/yu + phi yu w w^T)/tau + e e^T/sy,  w = e/sy - u/yu,
         is expanded as one symmetric rank-1 term in u plus a row/column correction at the
         slot of s_i, and the division by tau is carried in a scalar.  This needs one mat-vec
-        and one rank-1 update per stored pair (NumPy/BLAS), about 4x faster than the direct
-        form for m = 100.
+        and one rank-1 update per stored pair (NumPy/BLAS), several times faster than the
+        direct form with outer products for m = 100.
         """
         m = state["S"].shape[0]
         G = state["gram"].to("cpu", torch.float64).numpy()

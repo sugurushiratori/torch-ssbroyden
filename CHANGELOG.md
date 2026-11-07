@@ -1,6 +1,11 @@
 # Changelog
 
 ## 0.4.1
+- `SegmentTrainer`: the generalisation gap uses the batch loss at the end of the segment (was the
+  loss at the start of the last optimizer call); the probe batch is drawn with the same size
+  argument as the batch; a call in which the optimizer makes no iteration ends the segment.
+  Segment lengths are nominal (``probe_every`` per call), as documented. Runs with a fixed
+  ``segment_iters`` and ``probe=False`` are unchanged.
 - `tolerance_grad` and `tolerance_change` default to 0 in `LSSBroyden` and `SSBroyden` (were 1e-7 and
   1e-9 as in `torch.optim.LBFGS`). These absolute tolerances depend on the scale of the loss and
   can stop a run early; pass the old values explicitly to restore the previous behaviour.
