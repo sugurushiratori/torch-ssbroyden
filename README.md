@@ -24,7 +24,7 @@ representation H = cγI + PAPᵀ in the 2m-dimensional Gram space.
 
 ```bash
 pip install "torch-ssbroyden @ git+https://github.com/Shiratori-Lab/torch-ssbroyden.git"          # latest
-pip install "torch-ssbroyden @ git+https://github.com/Shiratori-Lab/torch-ssbroyden.git@v0.4.0"   # a release
+pip install "torch-ssbroyden @ git+https://github.com/Shiratori-Lab/torch-ssbroyden.git@v0.4.1"   # a release
 
 # or from a clone
 git clone https://github.com/Shiratori-Lab/torch-ssbroyden.git

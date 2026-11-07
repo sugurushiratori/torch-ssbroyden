@@ -83,12 +83,14 @@ def ss_params(b: float, h: float, n: int, update: str = "ssbroyden",
     if a <= 1e-12:  # H exact along y: theta = 0
         return rho_p, 1.0
     c = math.sqrt(a / (1.0 + a))
-    rho_m = min(1.0, h * (1.0 - c))
+    # 1 - c = 1 / ((1 + a)(1 + c)); the direct form cancels for large a (and is 0 for a >~ 1e16)
+    one_m_c = (1.0 - c) if a < 1e6 else 1.0 / ((1.0 + a) * (1.0 + c))
+    rho_m = min(1.0, h * one_m_c)
     theta_m = (rho_m - 1.0) / a
     theta_p = 1.0 / rho_m
     theta = max(theta_m, min(theta_p, (1.0 - b) / b))
     if tau_beta:
-        rho_p = min(1.0, ((1.0 + a) * (1.0 - c)) ** tau_beta / b)
+        rho_p = min(1.0, ((1.0 + a) * one_m_c) ** tau_beta / b)
     sigma = 1.0 + a * theta  # >= rho_m > 0
     sig = abs(sigma) ** (1.0 / (1 - n)) if n > 1 else 1.0  # sigma^(1-N)
     if theta <= 0:

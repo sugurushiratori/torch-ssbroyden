@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use this software, please cite it as below, together with the SSBroyden paper."
 title: "torch-ssbroyden: self-scaled Broyden quasi-Newton optimizers for PyTorch"
 type: software
-version: 0.4.0
+version: 0.4.1
 license: Apache-2.0
 doi: 10.5281/zenodo.23998783
 identifiers:

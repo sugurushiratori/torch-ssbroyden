@@ -13,4 +13,4 @@ from .ssbroyden import DenseSSBroyden, LSSBroyden, SSBroyden, ss_params
 
 __all__ = ["LSSBroyden", "SSBroyden", "DenseSSBroyden", "SegmentTrainer", "ss_params",
            "sampling", "Uniform", "RAD", "RARD"]
-__version__ = "0.4.0"
+__version__ = "0.4.1"

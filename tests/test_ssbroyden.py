@@ -147,3 +147,13 @@ def test_nonfinite_trial_points_are_rejected():
         assert torch.isfinite(x).all()
         assert float(x.detach().abs().max()) < 1e-4
         assert opt.state[x]["n_nonfinite"] >= 2
+
+
+def test_ss_params_large_a():
+    # 1 - sqrt(a/(1+a)) underflows to 0 for a >~ 1e16 in the direct form
+    import math
+    from torch_ssbroyden.ssbroyden import ss_params
+    for a in [1e6, 1e10, 1e16, 1e20]:
+        for b in [1e-3, 0.3, 1.0, 10.0]:
+            tau, phi = ss_params(b, (1.0 + a) / b, 1000, "ssbroyden")
+            assert math.isfinite(tau) and math.isfinite(phi) and tau > 0 and phi >= 0

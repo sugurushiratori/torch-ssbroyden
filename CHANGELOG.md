@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.1
+- `ss_params`: evaluate 1 - sqrt(a/(1+a)) as 1/((1+a)(1+sqrt(a/(1+a)))) for a >= 1e6. The
+  direct form loses accuracy for large a and is exactly 0 for a >~ 1e16, which raised
+  `ZeroDivisionError`. Results for a < 1e6 are bit-identical to 0.4.0.
+
 ## 0.4.0
 - Renamed from `ssopt` to `torch-ssbroyden` (import `torch_ssbroyden`). PyTorch only.
 - Restart from the gradient when H is no longer a descent direction (instead of stopping);

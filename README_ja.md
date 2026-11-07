@@ -18,7 +18,7 @@ SSBroyden の更新式は Kiyani et al., CMAME 446 (2025) 118308 の Sec. 1.3 �
 
 ```bash
 pip install "torch-ssbroyden @ git+https://github.com/Shiratori-Lab/torch-ssbroyden.git"          # 最新版
-pip install "torch-ssbroyden @ git+https://github.com/Shiratori-Lab/torch-ssbroyden.git@v0.4.0"   # 版を指定する場合
+pip install "torch-ssbroyden @ git+https://github.com/Shiratori-Lab/torch-ssbroyden.git@v0.4.1"   # 版を指定する場合
 
 # clone して使う場合
 git clone https://github.com/Shiratori-Lab/torch-ssbroyden.git

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "torch-ssbroyden"
-version = "0.4.0"
+version = "0.4.1"
 description = "Self-scaled Broyden (SSBroyden) and limited-memory L-SSBroyden quasi-Newton optimizers for PyTorch"
 readme = "README.md"
 requires-python = ">=3.10"
