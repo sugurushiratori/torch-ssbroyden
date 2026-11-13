@@ -24,7 +24,7 @@ fast = ["scipy>=1.8"]   # BLAS rank-1 updates in the L-SSBroyden rebuild (about 
 test = ["pytest", "scipy"]
 
 [project.urls]
-Repository = "https://github.com/Shiratori-Lab/torch-ssbroyden"
+Repository = "https://github.com/sugurushiratori/torch-ssbroyden"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/torch_ssbroyden"]
